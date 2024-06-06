@@ -91,6 +91,10 @@ twitch_miner.mine(
         Streamer("mrtweeday", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
         Streamer("angryowlcat", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
         Streamer("Furi", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
+        Streamer("MintzeyMoon", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
+        Streamer("Meowjennycat", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
+       
+
         
 
 
