@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from colorama import Fore
 from TwitchChannelPointsMiner import TwitchChannelPointsMiner
@@ -16,8 +18,8 @@ import os
 keep_alive()
 
 twitch_miner = TwitchChannelPointsMiner(
-    username=os.environ.get('username'),
-    password=os.environ.get('password'),           # If no password will be provided, the script will ask interactively
+    username="",
+    password="",           # If no password will be provided, the script will ask interactively
     claim_drops_startup=False,                  # If you want to auto claim all drops from Twitch inventory on the startup
     priority=[                                  # Custom priority in this case for example:
         Priority.STREAK,                        # - We want first of all to catch all watch streak from all streamers
@@ -42,14 +44,35 @@ twitch_miner = TwitchChannelPointsMiner(
             streamer_offline="red",             # Read more in README.md
             BET_wiN=Fore.MAGENTA                # Color allowed are: [BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET].
         ),
+        telegram=Telegram(                                                          # You can omit or set to None if you don't want to receive updates on Telegram
+            chat_id=123456789,                                                      # Chat ID to send messages @getmyid_bot
+            token="123456789:shfuihreuifheuifhiu34578347",                          # Telegram API token @BotFather
+            events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE,
+                    Events.BET_LOSE, Events.CHAT_MENTION],                          # Only these events will be sent to the chat
+            disable_notification=True,                                              # Revoke the notification (sound/vibration)
+        ),
         discord=Discord(
-            webhook_api="https://discord.com/api/webhooks/1248139624157806632/XZ3EWhjU1XnN91UNj-OftEGlmhPUcgKjHuEugumsCVJ5nL97oV7NDg4il5tEBAvh68Rm",  # Discord Webhook URL
+            webhook_api="https://discord.com/api/webhooks/0123456789/0a1B2c3D4e5F6g7H8i9J",  # Discord Webhook URL
             events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE,
                     Events.BET_LOSE, Events.CHAT_MENTION],                                  # Only these events will be sent to the chat
         ),
+        matrix=Matrix(
+            username="twitch_miner",                                                   # Matrix username (without homeserver)
+            password="...",                                                            # Matrix password
+            homeserver="matrix.org",                                                   # Matrix homeserver
+            room_id="...",                                                             # Room ID
+            events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE, Events.BET_LOSE], # Only these events will be sent to the chat
+        ),
+        pushover=Pushover(
+            userkey="YOUR-ACCOUNT-TOKEN",                                             # Login to https://pushover.net/, the user token is on the main page.
+            token="YOUR-APPLICATION-TOKEN",                                           # Create a application on the website, and use the token shown in your application.
+            priority=0,                                                               # Read more about priority here: https://pushover.net/api#priority
+            sound="pushover",                                                         # A list of sounds can be found here: https://pushover.net/api#sounds
+            events=[Events.CHAT_MENTION, Events.DROP_CLAIM],                          # Only these events will be sent.
+        )
     ),
     streamer_settings=StreamerSettings(
-        make_predictions=False,                  # If you want to Bet / Make prediction
+        make_predictions=True,                  # If you want to Bet / Make prediction
         follow_raid=True,                       # Follow raid to obtain more points
         claim_drops=True,                       # We can't filter rewards base on stream. Set to False for skip viewing counter increase and you will never obtain a drop reward from this script. Issue #21
         claim_moments=True,                     # If set to True, https://help.twitch.tv/s/article/moments will be claimed when available
@@ -85,20 +108,14 @@ twitch_miner = TwitchChannelPointsMiner(
 
 twitch_miner.mine(
     [
-        Streamer("ohnepixel", settings=StreamerSettings(make_predictions=False  , follow_raid=True , claim_drops=True  , watch_streak=True , bet=BetSettings(strategy=Strategy.SMART      , percentage=0 , stealth_mode=False,  percentage_gap=0 , max_points=0   , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_USERS,      where=Condition.LTE, value=0 ) ) )),
-        Streamer("anomaly", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
-        Streamer("thepeachcobbler", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
-        Streamer("mrtweeday", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
-        Streamer("angryowlcat", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
-        Streamer("Furi", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,   watch_streak=True,   bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=0 , stealth_mode=False, percentage_gap=0 , max_points=0  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=0 ) ) )),
-        
-
-
-
-
-
-#        
-       ],                                  # Array of streamers (order = priority)
+       Streamer("pimpcs", settings=StreamerSettings(make_predictions=True  , follow_raid=True , claim_drops=True  , watch_streak=True , bet=BetSettings(strategy=Strategy.SMART      , percentage=5 , stealth_mode=True,  percentage_gap=20 , max_points=234   , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_USERS,      where=Condition.LTE, value=800 ) ) )),
+       Streamer("lobanjicaa", settings=StreamerSettings(make_predictions=True , follow_raid=True  , claim_drops=True ,                     bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=5 , stealth_mode=False, percentage_gap=20 , max_points=1234  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=250 ) ) )),
+       Streamer("olofmeister", settings=StreamerSettings(make_predictions=True , follow_raid=True  , claim_drops=True ,                     bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=5 , stealth_mode=False, percentage_gap=20 , max_points=1234  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=250 ) ) )),
+       Streamer("get_right", settings=StreamerSettings(make_predictions=True , follow_raid=True  , claim_drops=True ,                     bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=5 , stealth_mode=False, percentage_gap=20 , max_points=1234  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=250 ) ) )),
+       Streamer("haixxd", settings=StreamerSettings(make_predictions=False , follow_raid=True  , claim_drops=True ,                     bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=5 , stealth_mode=False, percentage_gap=20 , max_points=1234  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=250 ) ) )),
+       Streamer("shoxiejesuss", settings=StreamerSettings(make_predictions=True , follow_raid=True  , claim_drops=True ,                     bet=BetSettings(strategy=Strategy.PERCENTAGE , percentage=5 , stealth_mode=False, percentage_gap=20 , max_points=1234  , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_POINTS,     where=Condition.GTE, value=250 ) ) )),
+       Streamer("gunthersuper", settings=StreamerSettings(make_predictions=True  , follow_raid=False , claim_drops=True  , watch_streak=True , bet=BetSettings(strategy=Strategy.SMART      , percentage=5 , stealth_mode=True,  percentage_gap=20 , max_points=234   , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_USERS,      where=Condition.LTE, value=800 ) ) ))
+    ],                                  # Array of streamers (order = priority)
     followers=False,                    # Automatic download the list of your followers
     followers_order=FollowersOrder.ASC  # Sort the followers list by follow date. ASC or DESC
 )

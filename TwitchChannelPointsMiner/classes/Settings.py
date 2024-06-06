@@ -7,7 +7,7 @@ class Priority(Enum):
     DROPS = auto()
     SUBSCRIBED = auto()
     POINTS_ASCENDING = auto()
-    POINTS_DESCENDING = auto()
+    POINTS_DESCEDING = auto()
 
 
 class FollowersOrder(Enum):

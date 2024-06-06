@@ -395,7 +395,7 @@ class Twitch(object):
 
                     elif (
                         prior in [Priority.POINTS_ASCENDING,
-                                  Priority.POINTS_DESCENDING]
+                                  Priority.POINTS_DESCEDING]
                         and len(streamers_watching) < 2
                     ):
                         items = [
@@ -407,7 +407,7 @@ class Twitch(object):
                             items,
                             key=lambda x: x["points"],
                             reverse=(
-                                True if prior == Priority.POINTS_DESCENDING else False
+                                True if prior == Priority.POINTS_DESCEDING else False
                             ),
                         )
                         streamers_watching += [item["index"]
@@ -433,7 +433,7 @@ class Twitch(object):
                                     )
                                     > 30
                                 )
-                                and streamers[index].stream.minute_watched < 7 # fix #425
+                                and streamers[index].stream.minute_watched < 1
                             ):
                                 streamers_watching.append(index)
                                 if len(streamers_watching) == 2:
@@ -508,7 +508,6 @@ class Twitch(object):
                                                     "event": Events.DROP_STATUS,
                                                     "skip_telegram": True,
                                                     "skip_discord": True,
-                                                    "skip_webhook": True,
                                                     "skip_matrix": True,
                                                 },
                                             )
@@ -521,11 +520,6 @@ class Twitch(object):
 
                                         if Settings.logger.discord is not None:
                                             Settings.logger.discord.send(
-                                                "\n".join(drop_messages),
-                                                Events.DROP_STATUS,
-                                            )
-                                        if Settings.logger.webhook is not None:
-                                            Settings.logger.webhook.send(
                                                 "\n".join(drop_messages),
                                                 Events.DROP_STATUS,
                                             )
